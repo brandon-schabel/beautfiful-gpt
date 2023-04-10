@@ -101,3 +101,11 @@ then run
 ```bash
 bun examples/chat-completions-fetch.ts
 ```
+
+
+
+
+run a script in watch mode for example
+```bash
+bun run --watch examples/validator-sandbox.ts
+```
