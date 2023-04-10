@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 type JsonField = {
   name: string;
   type: string;
@@ -12,8 +14,21 @@ type BeautifulGpt = {
   createJsonFields(fields: JsonField[]): void;
   createPrompt(prompt: string): void;
   getRawPrompt(): string;
-  validateApiData(apiData: any): any;
+  validateApiData(
+    apiData: any,
+    validationSchema: typeof ApiDataSchemaTest
+  ): any;
 };
+
+// Implement your validation logic here
+const ApiDataSchemaTest = z.array(
+  z.object({
+    foodName: z.string(),
+    calories: z.number(),
+    fats_grams: z.number(),
+    proteins_grams: z.number(),
+  })
+);
 
 function createBeautifulGpt(options: BeautifulGptOptions): BeautifulGpt {
   let jsonFields: JsonField[] = [];
@@ -31,8 +46,18 @@ function createBeautifulGpt(options: BeautifulGptOptions): BeautifulGpt {
     return prompt;
   }
 
-  function validateApiData(apiData: any): any {
-    // Implement your validation logic here
+  function validateApiData(
+    apiData: any,
+    validationSchema: typeof ApiDataSchemaTest
+  ): any {
+    try {
+      const validatedData = validationSchema.parse(apiData);
+      return validatedData;
+    } catch (error) {
+      // Handle validation errors here, e.g. throw an error or return a default value
+      console.error("Validation failed:", error);
+      return null;
+    }
   }
 
   return {
