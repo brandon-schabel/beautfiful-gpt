@@ -1,4 +1,3 @@
-import { z } from "zod";
 
 type JsonField = {
   name: string;
@@ -6,19 +5,11 @@ type JsonField = {
 };
 
 type BeautifulGptOptions = {
-  //   openaiToken: string;
-  //   dataResponseFmt?: string;
+
 };
 
 // Implement your validation logic here
-const ApiDataSchemaTest = z.array(
-  z.object({
-    foodName: z.string(),
-    calories: z.number(),
-    fatsGrams: z.number(),
-    proteinsGrams: z.number(),
-  })
-);
+
 
 function createBeautifulGpt(options: BeautifulGptOptions) {
   let jsonFields: JsonField[] = [];
