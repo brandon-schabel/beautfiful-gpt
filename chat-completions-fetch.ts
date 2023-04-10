@@ -1,4 +1,5 @@
-// Define your custom error types
+const OPENAI_API_KEY = Bun.env.OPENAI_API_KEY;
+
 class ValidationError extends Error {
   constructor(message: string) {
     super(message);
@@ -13,28 +14,8 @@ class APIError extends Error {
   }
 }
 
-// Define your response type
-interface ChatCompletionResponse {
-  id: string;
-  object: string;
-  created: number;
-  model: string;
-  usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
-  choices: Array<{
-    text: string;
-    index: number;
-    logprobs: object;
-    finish_reason: string;
-  }>;
-}
-
 // Type-safe fetch wrapper
-// Define your response type
-interface ChatCompletionResponse {
+type ChatCompletionResponse = {
   id: string;
   object: string;
   created: number;
@@ -50,7 +31,7 @@ interface ChatCompletionResponse {
     logprobs: object;
     finish_reason: string;
   }>;
-}
+};
 
 function createValidationError(message: string): ValidationError {
   return { name: "ValidationError", message };
@@ -61,6 +42,7 @@ function createAPIError(message: string): APIError {
 }
 
 // Type-safe fetch wrapper
+// could make type generic to support other endpoints, but this is all I need fo rnow
 async function fetchChatCompletion(
   prompt: string
 ): Promise<ChatCompletionResponse> {

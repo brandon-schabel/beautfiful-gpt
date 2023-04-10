@@ -1,25 +1,46 @@
-const OPENAI_API_KEY = Bun.env.OPENAI_API_KEY;
+type JsonField = {
+  name: string;
+  type: string;
+};
 
+type BeautifulGptOptions = {
+  openaiToken: string;
+  dataResponseFmt?: string;
+};
 
-async function chatCompletion(): Promise<void> {
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: "Hello world" }],
-      }),
-    });
+type BeautifulGpt = {
+  createJsonFields(fields: JsonField[]): void;
+  createPrompt(prompt: string): void;
+  getRawPrompt(): string;
+  validateApiData(apiData: any): any;
+};
 
-    const result = await response.json();
-    console.log(result);
-  } catch (error) {
-    console.error("Error:", error);
+function createBeautifulGpt(options: BeautifulGptOptions): BeautifulGpt {
+  let jsonFields: JsonField[] = [];
+  let prompt: string = "";
+
+  function createJsonFields(fields: JsonField[]): void {
+    jsonFields = fields;
   }
+
+  function createPrompt(newPrompt: string): void {
+    prompt = newPrompt;
+  }
+
+  function getRawPrompt(): string {
+    return prompt;
+  }
+
+  function validateApiData(apiData: any): any {
+    // Implement your validation logic here
+  }
+
+  return {
+    createJsonFields,
+    createPrompt,
+    getRawPrompt,
+    validateApiData,
+  };
 }
 
-chatCompletion();
+export { createBeautifulGpt };
