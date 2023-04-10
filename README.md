@@ -74,6 +74,7 @@ Initially, the development and release process will be kept simple and manual. T
 ### TODO need to figure out how to release it on node as well
 
 # Contributing
+
 To install dependencies:
 
 This project was created using `bun init` in bun v0.5.9. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
@@ -102,10 +103,28 @@ then run
 bun examples/chat-completions-fetch.ts
 ```
 
-
-
-
 run a script in watch mode for example
+
 ```bash
 bun run --watch examples/validator-sandbox.ts
 ```
+
+link package to local project
+
+Add this to you bun project dependecies
+`"beautiful-gpt": "https://github.com/brandon-schabel/beautiful-gpt"`
+
+and to Develop with it locally you can run the following command in in this directory
+
+```bash
+bun link
+```
+
+this will create a link this package which is `beautiful-gpt` that you can now use in your project
+Next `cd` to your project
+
+for example
+`cd ../bun-playground`
+
+and then run
+`bun link beautiful-gpt`
