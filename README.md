@@ -63,8 +63,9 @@ TBD...
 
 ## Development and Release Process
 
-Initially, the development and release process will be kept simple and manual. This includes creating a monorepo, developing the package, and testing with a sample application (e.g., Remix app).
+Initially, the development and release process will be kept simple and manual. This includes keeping dependencies down, using built in bun features. 
 
+### TODO need to figure out how to release it on node as well
 
 
 # beautiful-gpt
