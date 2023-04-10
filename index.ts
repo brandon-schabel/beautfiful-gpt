@@ -6,18 +6,8 @@ type JsonField = {
 };
 
 type BeautifulGptOptions = {
-  openaiToken: string;
-  dataResponseFmt?: string;
-};
-
-type BeautifulGpt = {
-  createJsonFields(fields: JsonField[]): void;
-  createPrompt(prompt: string): void;
-  getRawPrompt(): string;
-  validateApiData(
-    apiData: any,
-    validationSchema: typeof ApiDataSchemaTest
-  ): any;
+  //   openaiToken: string;
+  //   dataResponseFmt?: string;
 };
 
 // Implement your validation logic here
@@ -25,25 +15,33 @@ const ApiDataSchemaTest = z.array(
   z.object({
     foodName: z.string(),
     calories: z.number(),
-    fats_grams: z.number(),
-    proteins_grams: z.number(),
+    fatsGrams: z.number(),
+    proteinsGrams: z.number(),
   })
 );
 
-function createBeautifulGpt(options: BeautifulGptOptions): BeautifulGpt {
+function createBeautifulGpt(options: BeautifulGptOptions) {
   let jsonFields: JsonField[] = [];
-  let prompt: string = "";
 
-  function createJsonFields(fields: JsonField[]): void {
+  function setJsonFields(fields: JsonField[]): void {
     jsonFields = fields;
   }
 
-  function createPrompt(newPrompt: string): void {
-    prompt = newPrompt;
-  }
+  function getFormattedJsonTypesForPrompt(): string {
+    if (jsonFields.length > 0) {
+      return `\n\n
 
-  function getRawPrompt(): string {
-    return prompt;
+${JSON.stringify(
+  jsonFields.reduce((acc, field) => {
+    acc[field.name] = field.type;
+    return acc;
+  }, {}),
+  null,
+  2
+)}\n\n\n
+`;
+    }
+    throw new Error("No JSON fields have been added");
   }
 
   function validateApiData(
@@ -60,11 +58,20 @@ function createBeautifulGpt(options: BeautifulGptOptions): BeautifulGpt {
     }
   }
 
+  const getTestPrompt = (prompt: string) => {
+    return `
+${prompt}
+Return Data as JSON format, below is expected JSON format. The keys are the field names and the value is the expect type of that field::
+
+${getFormattedJsonTypesForPrompt()}
+     `;
+  };
+
   return {
-    createJsonFields,
-    createPrompt,
-    getRawPrompt,
+    setJsonFields,
+    getFormattedJsonTypesForPrompt,
     validateApiData,
+    getTestPrompt,
   };
 }
 
