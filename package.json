@@ -1,0 +1,13 @@
+{
+  "name": "beautiful-gpt",
+  "module": "index.ts",
+  "type": "module",
+  "author": {
+    "name": "Brandon Schabel",
+    "email": "codersoutpost@gmail.com",
+    "url": "http://codersoutpost.com"
+  },
+  "devDependencies": {
+    "bun-types": "^0.5.0"
+  }
+}
