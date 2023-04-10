@@ -2,6 +2,8 @@
 
 A TypeScript tool for developers to create type-safe interactions with OpenAI's Chat and Completion APIs and of course other GPT with similar interfaces/APIs.
 
+
+### WARNING BASICALLY NOTHING IS WORKING YET
 ## Installation and Setup
 
 1. Install dependencies: `bun install`
