@@ -5,40 +5,36 @@ import { chatGptMockFruitPrompt } from "./mock-data/chat-gpt-mock-fruit-prompt";
 // Example usage:
 
 // Define a Zod schema for the expected data
-const fruitSchema = z.object({
-  name: z.string(),
-  calories: z.number(),
-  fatsGrams: z.number(),
-  proteinsGrams: z.number(),
-});
-
-// get typescript type from schema
-type Fruit = z.infer<typeof fruitSchema>;
+const fruitSchema = z.array(
+  z.object({
+    name: z.string(),
+    calories: z.number(),
+    fatsGrams: z.number(),
+    proteinsGrams: z.number(),
+  })
+);
 
 // Create a validator for the user data
-const validateUserApiResponse = createValidator<Fruit>(fruitSchema);
+const validateUserApiResponse =
+  createValidator<z.infer<typeof fruitSchema>>(fruitSchema);
 
 const parsedJson = JSON.parse(chatGptMockFruitPrompt.response);
 
-console.log({parsedJson})
+
+console.log({data: parsedJson})
 
 // Validate the API response
 const validatedResponse = validateUserApiResponse(parsedJson);
 
-console.log(validatedResponse);
+// check for error
+if (validatedResponse.error) {
+  console.error(validatedResponse.error);
+  // return;
+}
 
-// Mock API response
-// const apiResponse: ApiResponse<unknown> = {
-//   status: "success",
-//   data: {
-//     id: 1,
-//     name: "John Doe",
-//     email: "john.doe@example.com",
-//   },
-// };
+// FRUIT IS TYPED!
+validatedResponse?.data?.forEach((fruit) => {
+  console.log(fruit.name);
+});
 
-// Validate the API response
-// const validatedResponse = validateUserApiResponse(apiResponse);
-// console.log(validatedResponse);
-
-// const result = await fetchChatCompletion()
+// next goal is to figure out how to pass the fruitSchema to the prompt generator so that it can be used to generate the prompt JSON
