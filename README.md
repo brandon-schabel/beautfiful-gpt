@@ -1,3 +1,5 @@
+# Deprecated 
+Here now https://github.com/brandon-schabel/instant-bun/tree/main/apps/beautiful-gpt
 # Introducing Beautiful-GPT
 
 A TypeScript tool for developers to create type-safe interactions with OpenAI's Chat and Completion APIs and of course other GPT with similar interfaces/APIs.
@@ -128,3 +130,5 @@ for example
 
 and then run
 `bun link beautiful-gpt`
+
+

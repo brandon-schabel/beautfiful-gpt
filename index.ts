@@ -1,15 +1,13 @@
+import { createValidator } from "./validator";
 
 type JsonField = {
   name: string;
   type: string;
 };
 
-type BeautifulGptOptions = {
-
-};
+type BeautifulGptOptions = {};
 
 // Implement your validation logic here
-
 
 function createBeautifulGpt(options: BeautifulGptOptions) {
   let jsonFields: JsonField[] = [];
@@ -67,3 +65,6 @@ ${getFormattedJsonTypesForPrompt()}
 }
 
 export { createBeautifulGpt };
+export { createValidator };
+
+

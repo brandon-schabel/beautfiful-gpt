@@ -9,7 +9,9 @@ interface ApiResponse<T> {
 
 // Create a generic validator function
 export function createValidator<T>(schema: ZodType<T>) {
+  console.log({ schema, __filename });
   return (apiResponse: ApiResponse<unknown>): ApiResponse<T> => {
+    console.log(apiResponse);
     if (apiResponse.status === "error") {
       return apiResponse as ApiResponse<T>; // no need to validate in case of an error
     }
@@ -19,6 +21,7 @@ export function createValidator<T>(schema: ZodType<T>) {
       return { ...apiResponse, data: validatedData } as ApiResponse<T>;
     } catch (error) {
       if (error instanceof ZodError) {
+        console.error(error);
         return { status: "error", error: "Invalid API response data." };
       } else {
         throw error;
